@@ -121,74 +121,47 @@ namespace aiearn
                     }
                     else
                     {
-                        string chromePath = GetChromePath();
-                     
+                        //string chromePath = GetChromePath(); string driverDir = System.IO.Path.GetDirectoryName(Application.StartupPath);
 
-                        // 1️⃣ Tạo ChromeDriverService
-                        var chromeDriverService = ChromeDriverService.CreateDefaultService();
-                        chromeDriverService.HideCommandPromptWindow = true;
-                        chromeDriverService.SuppressInitialDiagnosticInformation = true;
+                        //string userDataDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Google", "Chrome", "User Data");
+                        //string profileDir = "Profile 2";
+                        //string args = $"--remote-debugging-port=40461 " +
+                        //              $"--user-data-dir=\"{userDataDir}\" " +
+                        //              $"--profile-directory=\"{profileDir}\" " +
+                        //              "--disable-notifications " +
+                        //              "--disable-infobars " +
+                        //              "--mute-audio " +
+                        //              "--disable-blink-features=AutomationControlled";
+                        //var process = Process.Start(new ProcessStartInfo
+                        //{
+                        //    FileName = chromePath,
+                        //    Arguments = args,
+                        //    UseShellExecute = false,
+                        //    CreateNoWindow = true,
+                        //    RedirectStandardOutput = true, // Chặn output console
+                        //    RedirectStandardError = true // Chặn error console
+                        //});
+                        //var chromeDriverService = ChromeDriverService.CreateDefaultService(driverDir, "chromedriver.exe");
+                        //chromeDriverService.HideCommandPromptWindow = true;
+                        //chromeDriverService.SuppressInitialDiagnosticInformation = true;
+                        //var chromeOptions = new ChromeOptions();
+                        //chromeOptions.DebuggerAddress = "127.0.0.1:40461";
+                        //chromeOptions.AddArgument("--remote-debugging-port=40461");
+                        //chromeOptions.AddAdditionalOption("useAutomationExtension", false);
+                        
+                        //try {
 
-                        // 2️⃣ Tạo ChromeOptions
-                        var chromeOptions = new ChromeOptions();
-                        chromeOptions.DebuggerAddress = "127.0.0.1:9222";
-                        chromeOptions.AddAdditionalOption("useAutomationExtension", false);
+                        //// 6️⃣ Attach Selenium driver
+                        //var driver = new ChromeDriver(chromeDriverService, chromeOptions);
 
-                        // 3️⃣ Tạo args để mở Chrome
-                        string userDataDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Google", "Chrome", "User Data");
-                        string profileDir = "Profile 2";
+                        //MessageBox.Show("Đã kết nối với Chrome đang chạy. Vui lòng đảm bảo rằng Chrome đã được mở với các tùy chọn cần thiết.");
 
-                        string args = $"--remote-debugging-port=9222 " +
-                                      $"--user-data-dir=\"{userDataDir}\" " +
-                                      $"--profile-directory=\"{profileDir}\" " +
-                                      "--disable-notifications " +
-                                      "--disable-infobars " +
-                                      "--mute-audio " +
-                                      "--disable-blink-features=AutomationControlled";
-
-                        // 4️⃣ Mở Chrome
-                        var process = Process.Start(new ProcessStartInfo
-                        {
-                            FileName = chromePath,
-                            Arguments = args,
-                            UseShellExecute = false,
-                            CreateNoWindow = true
-                        });
-
-                        // 5️⃣ Đợi port mở
-                        bool isPortOpen = false;
-                        int retries = 15;
-                        while (!isPortOpen && retries-- > 0)
-                        {
-                            try
-                            {
-                                using (var client = new TcpClient())
-                                {
-                                    client.Connect("localhost", 9222);
-                                    isPortOpen = true;
-                                }
-                            }
-                            catch
-                            {
-                                Thread.Sleep(1000);
-                            }
-                        }
-
-                        if (!isPortOpen)
-                        {
-                            MessageBox.Show("Không kết nối được với Chrome debugger port 9222. Vui lòng kiểm tra lại.");
-                            return;
-                        }
-
-                        // 6️⃣ Attach Selenium driver
-                        var driver = new ChromeDriver(chromeDriverService, chromeOptions);
-
-                        MessageBox.Show("Đã kết nối với Chrome đang chạy. Vui lòng đảm bảo rằng Chrome đã được mở với các tùy chọn cần thiết.");
-
-                        // 7️⃣ Thử mở 1 trang web
-                        driver.Navigate().GoToUrl("https://www.google.com");
-                        return;
-                        driver.Manage().Timeouts().PageLoad = TimeSpan.FromSeconds(60);
+                        //// 7️⃣ Thử mở 1 trang web
+                        //driver.Navigate().GoToUrl("https://www.google.com");
+                        //}
+                        //catch { }
+                        //return;
+                        //driver.Manage().Timeouts().PageLoad = TimeSpan.FromSeconds(60);
                     }
                     IJavaScriptExecutor js = (IJavaScriptExecutor)driver;
                     driver.Navigate().GoToUrl("https://www.aiearn.co/");
