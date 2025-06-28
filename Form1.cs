@@ -27,11 +27,11 @@ namespace aiearn
             textBox3.Text = aiearn.Settings.Default.textBox3;
             textBox2.Text = aiearn.Settings.Default.textBox2;
             textBox1.Text = aiearn.Settings.Default.textBox1;
-            textBox5.Text = aiearn.Settings.Default.textBox5;
+    
             textBox3.TextChanged += (s, e) => { aiearn.Settings.Default.textBox3 = textBox3.Text;aiearn.Settings.Default.Save(); }; 
             textBox2.TextChanged += (s, e) => { aiearn.Settings.Default.textBox2 = textBox2.Text;aiearn.Settings.Default.Save(); }; 
             textBox1.TextChanged += (s, e) => { aiearn.Settings.Default.textBox1 = textBox1.Text;aiearn.Settings.Default.Save(); };
-            textBox5.TextChanged += (s, e) => { aiearn.Settings.Default.textBox5 = textBox5.Text;aiearn.Settings.Default.Save(); }; 
+          
 
         }
         private void Timer_Tick(object sender, EventArgs e)
@@ -46,7 +46,8 @@ namespace aiearn
         private IWebDriver driver;
         private async void btnStart_Click(object sender, EventArgs e)
         {
-            mtk = true;
+            btnStop.Enabled = true;
+            btnStart.Enabled = false;
 
             if (seleniumTask != null && !seleniumTask.IsCompleted)
             {
@@ -57,6 +58,7 @@ namespace aiearn
             Random r = new Random();
             seleniumTask = Task.Run(async () =>
             {
+            
                 this.Invoke(new Action(() =>
                 {
                     lblStatus.Text = "Bắt đầu chạy";
@@ -65,6 +67,9 @@ namespace aiearn
                     lblAchieved.Text = "Điểm đã đạt: 0";
                     lblTime.Text = "Thời gian đã chạy: 00:00:00";
                 }));
+            oke:
+                bool miz = false;
+                mtk = true;
                 try
                 {
                     var account = File.ReadAllText("Input\\acc.txt");
@@ -111,9 +116,9 @@ namespace aiearn
                             chromeOptions.AddExtension(Path.Combine(Application.StartupPath, "WbRTC.crx"));
                         }
                         catch { }
-                        //string userDataDir = Application.StartupPath + @"Profile";
-                        string userDataDir = @"C:\Users\manhc\AppData\Local\Google\Chrome\User Data\";
-                        string profileDir = "Profile 2";
+                        string userDataDir = Application.StartupPath + @"Profile";
+                        //string userDataDir = @"C:\Users\manhc\AppData\Local\Google\Chrome\User Data\";
+                        string profileDir = "Profile "+tk;
                         chromeOptions.AddArgument($@"--user-data-dir={userDataDir}");
                         chromeOptions.AddArgument($@"--profile-directory={profileDir}");
                         chromeOptions.AddArgument("--lang=en");
@@ -204,11 +209,21 @@ namespace aiearn
                         try { usernameField = driver.FindElement(By.Name("username")); break; } catch { }
                         _ = Task.Delay(r.Next(1000, 3500));
                     }
-                    usernameField.SendKeys(tk);
+                    foreach(var item in tk)
+                    {
+                        usernameField.SendKeys(item.ToString());
+                        _ = Task.Delay(r.Next(100, 500));
+                    }
+             
                     _ = Task.Delay(r.Next(1000, 3500));
                     IWebElement passwordField = driver.FindElement(By.Name("password"));
-                    passwordField.SendKeys(mk);
-                    _ = Task.Delay(r.Next(1000, 3500));
+                    foreach (var item in mk)
+                    {
+                        passwordField.SendKeys(item.ToString());
+                        _ = Task.Delay(r.Next(100, 500));
+                    }
+                   
+                    _ = Task.Delay(r.Next(2000, 3500));
                     IWebElement loginButton = driver.FindElement(By.XPath("//button[text()='Đăng nhập']"));
                     loginButton.Click();
                 b1:
@@ -253,8 +268,34 @@ namespace aiearn
                         }
                         catch { }
                         _ = Task.Delay(r.Next(1000, 3500));
+                        try
+                        {
+                            foreach (var item in driver.FindElements(By.XPath("//button[@aria-label=\"Close\"]")))
+                            {
+                                try { item.Click(); } catch { }
+                            }
+                        }
+                        catch { }
                     }
+                    try
+                    {
+                        foreach (var item in driver.FindElements(By.XPath("//button[@aria-label=\"Close\"]")))
+                        {
+                            try { item.Click(); } catch { }
+                        }
+                    }
+                    catch { }
                     var xucu = driver.FindElement(By.XPath("//div[@style=\"line-height: 1;\"]")).Text.Replace("\r\n(0)", "");
+                    try {
+                        var m = int.Parse(xucu);
+                    } catch {
+                        Task.Delay(5000);
+                        try {
+                        xucu = driver.FindElement(By.XPath("//div[@style=\"line-height: 1;\"]/div")).Text;
+                            var m = int.Parse(xucu);
+                        }
+                        catch { goto b5; }
+                    }
                     this.Invoke((Action)(() =>
                     {
                         lblStartScore.Text = "Điểm ban đầu: " + xucu;
@@ -268,6 +309,7 @@ namespace aiearn
                         timer.Start();
                     }));
                     try { driver.FindElement(By.XPath("//div[@class=\"css-5ehbpw\"]")).Click(); } catch { }
+                    try { driver.FindElement(By.XPath("//td[@class=\"css-g3rg8x\"]")).Click(); } catch { }
                     js.ExecuteScript("window.scrollTo(0, document.body.scrollHeight);");
                     _ = Task.Delay(r.Next(int.Parse(textBox1.Text), int.Parse(textBox2.Text)));
                     driver.FindElement(By.XPath("//div[@aria-label=\"kích thước trang\"]")).Click();
@@ -293,19 +335,43 @@ namespace aiearn
                         int max= int.Parse(textBox2.Text);
                         int m1= int.Parse(textBox3.Text);
                         int m2= int.Parse(textBox4.Text);
-                        if (driver.FindElement(By.XPath("//li[@class=\"ant-pagination-total-text\"]")).Text == "0 Tổng số hồ sơ")
+                        try { driver.FindElement(By.XPath("//div[@class=\"css-5ehbpw\"]")).Click(); } catch { }
+                        try { driver.FindElement(By.XPath("//td[@class=\"css-g3rg8x\"]")).Click(); } catch { }
+                        try { driver.FindElement(By.XPath("//div[@class=\"css-qarrqj\"]")).Click(); } catch { }
+                        try { driver.FindElements(By.XPath("//img[@src=\"/assets/lightning-f6b8ee5c.svg\"]"))[1].Click(); } catch { }
+                        try
                         {
-                            this.Invoke(new Action(() =>
+                            if (driver.FindElement(By.XPath("//li[@class=\"ant-pagination-total-text\"]")).Text == "0 Tổng số hồ sơ")
                             {
-                                lblStatus.Text = "Mất kết nối";
-                            }));
+                                this.Invoke(new Action(() =>
+                                {
+                                    lblStatus.Text = "Mất kết nối";
+                                }));
+                            }
+                            else
+                            {
+                                this.Invoke(new Action(() =>
+                                {
+                                    lblStatus.Text = "Bắt đầu";
+                                }));
+                            }
                         }
-                        else
+                        catch
                         {
-                            this.Invoke(new Action(() =>
+                            if (driver.FindElement(By.XPath("//li[@class=\"antdark-pagination-total-text\"]")).Text == "0 Tổng số hồ sơ")
                             {
-                                lblStatus.Text = "Bắt đầu";
-                            }));
+                                this.Invoke(new Action(() =>
+                                {
+                                    lblStatus.Text = "Mất kết nối";
+                                }));
+                            }
+                            else
+                            {
+                                this.Invoke(new Action(() =>
+                                {
+                                    lblStatus.Text = "Bắt đầu";
+                                }));
+                            }
                         }
                         List<IWebElement> listelement = new List<IWebElement>();
                     b345:
@@ -321,6 +387,8 @@ namespace aiearn
                                     continue;
                                 }
                                 item.Click();
+                                _=Task.Delay(r.Next(100, 500));
+                                js.ExecuteScript("arguments[0].setAttribute('style', 'filter: grayscale(100%);')", item);
                                 listelement.Add(item);
                                 this.Invoke(new Action(() =>
                                 {
@@ -369,6 +437,30 @@ namespace aiearn
                         js.ExecuteScript("window.scrollTo(0, 0);");
                         try
                         {
+                            try { driver.FindElement(By.XPath("//div[@class=\"css-qarrqj\"]")).Click(); } catch { }
+
+                            try
+                            { 
+                                if(driver.FindElement(By.XPath("//div[@class=\"css-5ehbpw\"]")).GetAttribute("style")== "filter: none;")
+                                {
+                                    js.ExecuteScript("window.scrollTo(0, 0);");
+                                    await Task.Delay(r.Next(100, 3500));
+                                    driver.FindElement(By.XPath("//div[@class=\"css-5ehbpw\"]")).Click();
+                                    try { driver.FindElement(By.XPath("//div[@class=\"css-qarrqj\"]")).Click(); } catch { }
+                                    try { driver.FindElements(By.XPath("//img[@src=\"/assets/lightning-f6b8ee5c.svg\"]"))[1].Click(); } catch { }
+                                }
+                            
+                            } catch { }
+                            try {
+                                if (driver.FindElement(By.XPath("//div[@class=\"css-5ehbpw\"]")).GetAttribute("style") == "filter: none;") 
+                                {
+                                    js.ExecuteScript("window.scrollTo(0, 0);");
+                                    await Task.Delay(r.Next(1000, 3500));
+                                    driver.FindElement(By.XPath("//td[@class=\"css-g3rg8x\"]")).Click();
+                                    try { driver.FindElement(By.XPath("//div[@class=\"css-qarrqj\"]")).Click(); } catch { }
+                                    try { driver.FindElements(By.XPath("//img[@src=\"/assets/lightning-f6b8ee5c.svg\"]"))[1].Click(); } catch { }
+                                }
+                            } catch { }
                             var xumoia = driver.FindElement(By.XPath("//div[@style=\"line-height: 1;\"]")).Text.Replace("\r\n(0)", "");
                             int maa = int.Parse(xumoia) - int.Parse(xucu.Replace("\r\n(0)", ""));
                             this.Invoke(new Action(() =>
@@ -392,6 +484,8 @@ namespace aiearn
                      
                     }
                     js.ExecuteScript("window.scrollTo(0, 0);");
+                    try { driver.FindElement(By.XPath("//div[@class=\"css-qarrqj\"]")).Click(); } catch { }
+                    try { driver.FindElements(By.XPath("//img[@src=\"/assets/lightning-f6b8ee5c.svg\"]"))[1].Click(); } catch { }
                     var xumoi = driver.FindElement(By.XPath("//div[@style=\"line-height: 1;\"]")).Text.Replace("\r\n(0)", "");
                     int ma = int.Parse(xumoi) - int.Parse(xucu.Replace("\r\n(0)", ""));
                     this.Invoke(new Action(() =>
@@ -405,10 +499,44 @@ namespace aiearn
                 }
                 catch (Exception ex)
                 {
+                    
                     this.Invoke(new Action(() =>
                     {
                         lblStatus.Text = "Lỗi: " + ex.Message;
                     }));
+                    File.AppendAllText("log.txt", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + " - Lỗi: " + ex.Message + Environment.NewLine + ex.StackTrace + Environment.NewLine);
+                    //MessageBox.Show("Lỗi: " + ex.Message+"===>"+ex.StackTrace);
+                    miz = true;
+                   
+                }
+                if (miz)
+                {
+                    try
+                    {
+                        using (Process process = Process.Start(new ProcessStartInfo
+                        {
+                            FileName = "cmd.exe",
+                            Arguments = "/C Taskkill /F /IM chrome.exe /T & Taskkill /F /IM chromedriver.exe /T",
+                            RedirectStandardOutput = true,
+                            UseShellExecute = false,
+                            CreateNoWindow = true
+                        }))
+                        {
+                            string value = process.StandardOutput.ReadToEnd();
+                            process.WaitForExit();
+                            Console.WriteLine(value);
+                        }
+
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("Không thể kill các process. Lỗi: " + ex.Message);
+                    }
+                    this.Invoke(new Action(() =>
+                    {
+                        lblStatus.Text = "Chạy lại";
+                    }));
+                    goto oke;
                 }
             });
 
@@ -440,6 +568,8 @@ namespace aiearn
         {
             try
             {
+                btnStart.Enabled = true;
+                btnStop.Enabled = false;
                 mtk = false;
                 timer.Stop(); stopwatch.Stop();
                 lblStatus.Text = "Đã dừng";

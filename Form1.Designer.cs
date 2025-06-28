@@ -41,8 +41,6 @@
             label2 = new Label();
             textBox3 = new TextBox();
             textBox1 = new TextBox();
-            textBox5 = new TextBox();
-            label6 = new Label();
             panelHeader.SuspendLayout();
             groupBox1.SuspendLayout();
             SuspendLayout();
@@ -55,7 +53,7 @@
             btnStart.FlatStyle = FlatStyle.Flat;
             btnStart.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
             btnStart.ForeColor = Color.White;
-            btnStart.Location = new Point(22, 282);
+            btnStart.Location = new Point(22, 219);
             btnStart.Name = "btnStart";
             btnStart.Size = new Size(110, 40);
             btnStart.TabIndex = 0;
@@ -66,12 +64,13 @@
             // btnStop
             // 
             btnStop.BackColor = Color.FromArgb(231, 76, 60);
+            btnStop.Enabled = false;
             btnStop.FlatAppearance.BorderSize = 0;
             btnStop.FlatAppearance.MouseOverBackColor = Color.FromArgb(192, 57, 43);
             btnStop.FlatStyle = FlatStyle.Flat;
             btnStop.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
             btnStop.ForeColor = Color.White;
-            btnStop.Location = new Point(165, 282);
+            btnStop.Location = new Point(165, 219);
             btnStop.Name = "btnStop";
             btnStop.Size = new Size(110, 40);
             btnStop.TabIndex = 1;
@@ -96,7 +95,7 @@
             lblClick.AutoSize = true;
             lblClick.Font = new Font("Segoe UI", 11F);
             lblClick.ForeColor = Color.FromArgb(41, 128, 185);
-            lblClick.Location = new Point(37, 343);
+            lblClick.Location = new Point(37, 280);
             lblClick.Name = "lblClick";
             lblClick.Size = new Size(171, 25);
             lblClick.TabIndex = 3;
@@ -107,7 +106,7 @@
             lblStartScore.AutoSize = true;
             lblStartScore.Font = new Font("Segoe UI", 11F);
             lblStartScore.ForeColor = Color.FromArgb(41, 128, 185);
-            lblStartScore.Location = new Point(37, 373);
+            lblStartScore.Location = new Point(37, 310);
             lblStartScore.Name = "lblStartScore";
             lblStartScore.Size = new Size(149, 25);
             lblStartScore.TabIndex = 4;
@@ -118,7 +117,7 @@
             lblAchieved.AutoSize = true;
             lblAchieved.Font = new Font("Segoe UI", 11F);
             lblAchieved.ForeColor = Color.FromArgb(41, 128, 185);
-            lblAchieved.Location = new Point(37, 403);
+            lblAchieved.Location = new Point(37, 340);
             lblAchieved.Name = "lblAchieved";
             lblAchieved.Size = new Size(133, 25);
             lblAchieved.TabIndex = 5;
@@ -129,7 +128,7 @@
             lblTime.AutoSize = true;
             lblTime.Font = new Font("Segoe UI", 11F);
             lblTime.ForeColor = Color.FromArgb(41, 128, 185);
-            lblTime.Location = new Point(37, 471);
+            lblTime.Location = new Point(37, 408);
             lblTime.Name = "lblTime";
             lblTime.Size = new Size(238, 25);
             lblTime.TabIndex = 6;
@@ -150,7 +149,7 @@
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI", 11F);
             label1.ForeColor = Color.FromArgb(41, 128, 185);
-            label1.Location = new Point(37, 437);
+            label1.Location = new Point(37, 374);
             label1.Name = "label1";
             label1.Size = new Size(183, 25);
             label1.TabIndex = 8;
@@ -162,15 +161,13 @@
             groupBox1.Controls.Add(label3);
             groupBox1.Controls.Add(textBox4);
             groupBox1.Controls.Add(textBox2);
-            groupBox1.Controls.Add(label6);
             groupBox1.Controls.Add(label4);
             groupBox1.Controls.Add(label2);
-            groupBox1.Controls.Add(textBox5);
             groupBox1.Controls.Add(textBox3);
             groupBox1.Controls.Add(textBox1);
             groupBox1.Location = new Point(10, 69);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(302, 174);
+            groupBox1.Size = new Size(302, 129);
             groupBox1.TabIndex = 9;
             groupBox1.TabStop = false;
             groupBox1.Text = "Settings";
@@ -240,27 +237,11 @@
             textBox1.Size = new Size(86, 30);
             textBox1.TabIndex = 0;
             // 
-            // textBox5
-            // 
-            textBox5.Location = new Point(61, 129);
-            textBox5.Name = "textBox5";
-            textBox5.Size = new Size(238, 30);
-            textBox5.TabIndex = 0;
-            // 
-            // label6
-            // 
-            label6.AutoSize = true;
-            label6.Location = new Point(10, 134);
-            label6.Name = "label6";
-            label6.Size = new Size(48, 23);
-            label6.TabIndex = 1;
-            label6.Text = "min :";
-            // 
             // Form1
             // 
             AutoScaleMode = AutoScaleMode.None;
             BackColor = Color.FromArgb(236, 240, 241);
-            ClientSize = new Size(321, 533);
+            ClientSize = new Size(321, 444);
             Controls.Add(groupBox1);
             Controls.Add(label1);
             Controls.Add(panelHeader);
@@ -293,7 +274,5 @@
         private TextBox textBox2;
         private Label label4;
         private TextBox textBox3;
-        private Label label6;
-        private TextBox textBox5;
     }
 }
