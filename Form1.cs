@@ -335,10 +335,15 @@ namespace aiearn
                         int max= int.Parse(textBox2.Text);
                         int m1= int.Parse(textBox3.Text);
                         int m2= int.Parse(textBox4.Text);
-                        try { driver.FindElement(By.XPath("//div[@class=\"css-5ehbpw\"]")).Click(); } catch { }
-                        try { driver.FindElement(By.XPath("//td[@class=\"css-g3rg8x\"]")).Click(); } catch { }
-                        try { driver.FindElement(By.XPath("//div[@class=\"css-qarrqj\"]")).Click(); } catch { }
-                        try { driver.FindElements(By.XPath("//img[@src=\"/assets/lightning-f6b8ee5c.svg\"]"))[1].Click(); } catch { }
+                        for (int ks = 0; ks < 3; ks++)
+                        {
+
+
+                            try { driver.FindElement(By.XPath("//div[@class=\"css-5ehbpw\"]")).Click(); } catch { }
+                            try { driver.FindElement(By.XPath("//td[@class=\"css-g3rg8x\"]")).Click(); } catch { }
+                            try { driver.FindElement(By.XPath("//div[@class=\"css-qarrqj\"]")).Click(); } catch { }
+                            try { driver.FindElements(By.XPath("//img[@src=\"/assets/lightning-f6b8ee5c.svg\"]"))[1].Click(); } catch { }
+                        }
                         try
                         {
                             if (driver.FindElement(By.XPath("//li[@class=\"ant-pagination-total-text\"]")).Text == "0 Tổng số hồ sơ")
@@ -438,6 +443,15 @@ namespace aiearn
                         try
                         {
                             try { driver.FindElement(By.XPath("//div[@class=\"css-qarrqj\"]")).Click(); } catch { }
+                            for (int ks = 0; ks < 3; ks++)
+                            {
+
+
+                                try { driver.FindElement(By.XPath("//div[@class=\"css-5ehbpw\"]")).Click(); } catch { }
+                                try { driver.FindElement(By.XPath("//td[@class=\"css-g3rg8x\"]")).Click(); } catch { }
+                                try { driver.FindElement(By.XPath("//div[@class=\"css-qarrqj\"]")).Click(); } catch { }
+                                try { driver.FindElements(By.XPath("//img[@src=\"/assets/lightning-f6b8ee5c.svg\"]"))[1].Click(); } catch { }
+                            }
 
                             try
                             { 
@@ -446,8 +460,15 @@ namespace aiearn
                                     js.ExecuteScript("window.scrollTo(0, 0);");
                                     await Task.Delay(r.Next(100, 3500));
                                     driver.FindElement(By.XPath("//div[@class=\"css-5ehbpw\"]")).Click();
-                                    try { driver.FindElement(By.XPath("//div[@class=\"css-qarrqj\"]")).Click(); } catch { }
-                                    try { driver.FindElements(By.XPath("//img[@src=\"/assets/lightning-f6b8ee5c.svg\"]"))[1].Click(); } catch { }
+                                    for (int ks = 0; ks < 3; ks++)
+                                    {
+
+
+                                        try { driver.FindElement(By.XPath("//div[@class=\"css-5ehbpw\"]")).Click(); } catch { }
+                                        try { driver.FindElement(By.XPath("//td[@class=\"css-g3rg8x\"]")).Click(); } catch { }
+                                        try { driver.FindElement(By.XPath("//div[@class=\"css-qarrqj\"]")).Click(); } catch { }
+                                        try { driver.FindElements(By.XPath("//img[@src=\"/assets/lightning-f6b8ee5c.svg\"]"))[1].Click(); } catch { }
+                                    }
                                 }
                             
                             } catch { }
@@ -456,9 +477,15 @@ namespace aiearn
                                 {
                                     js.ExecuteScript("window.scrollTo(0, 0);");
                                     await Task.Delay(r.Next(1000, 3500));
-                                    driver.FindElement(By.XPath("//td[@class=\"css-g3rg8x\"]")).Click();
-                                    try { driver.FindElement(By.XPath("//div[@class=\"css-qarrqj\"]")).Click(); } catch { }
-                                    try { driver.FindElements(By.XPath("//img[@src=\"/assets/lightning-f6b8ee5c.svg\"]"))[1].Click(); } catch { }
+                                    for (int ks = 0; ks < 3; ks++)
+                                    {
+
+
+                                        try { driver.FindElement(By.XPath("//div[@class=\"css-5ehbpw\"]")).Click(); } catch { }
+                                        try { driver.FindElement(By.XPath("//td[@class=\"css-g3rg8x\"]")).Click(); } catch { }
+                                        try { driver.FindElement(By.XPath("//div[@class=\"css-qarrqj\"]")).Click(); } catch { }
+                                        try { driver.FindElements(By.XPath("//img[@src=\"/assets/lightning-f6b8ee5c.svg\"]"))[1].Click(); } catch { }
+                                    }
                                 }
                             } catch { }
                             var xumoia = driver.FindElement(By.XPath("//div[@style=\"line-height: 1;\"]")).Text.Replace("\r\n(0)", "");
@@ -484,8 +511,15 @@ namespace aiearn
                      
                     }
                     js.ExecuteScript("window.scrollTo(0, 0);");
-                    try { driver.FindElement(By.XPath("//div[@class=\"css-qarrqj\"]")).Click(); } catch { }
-                    try { driver.FindElements(By.XPath("//img[@src=\"/assets/lightning-f6b8ee5c.svg\"]"))[1].Click(); } catch { }
+                    for (int ks = 0; ks < 3; ks++)
+                    {
+
+
+                        try { driver.FindElement(By.XPath("//div[@class=\"css-5ehbpw\"]")).Click(); } catch { }
+                        try { driver.FindElement(By.XPath("//td[@class=\"css-g3rg8x\"]")).Click(); } catch { }
+                        try { driver.FindElement(By.XPath("//div[@class=\"css-qarrqj\"]")).Click(); } catch { }
+                        try { driver.FindElements(By.XPath("//img[@src=\"/assets/lightning-f6b8ee5c.svg\"]"))[1].Click(); } catch { }
+                    }
                     var xumoi = driver.FindElement(By.XPath("//div[@style=\"line-height: 1;\"]")).Text.Replace("\r\n(0)", "");
                     int ma = int.Parse(xumoi) - int.Parse(xucu.Replace("\r\n(0)", ""));
                     this.Invoke(new Action(() =>
