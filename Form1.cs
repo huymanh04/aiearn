@@ -58,7 +58,7 @@ namespace aiearn
             Random r = new Random();
             seleniumTask = Task.Run(async () =>
             {
-            
+                bool mt = false;
                 this.Invoke(new Action(() =>
                 {
                     lblStatus.Text = "Bắt đầu chạy";
@@ -66,6 +66,13 @@ namespace aiearn
                     lblStartScore.Text = "Điểm ban đầu: 0";
                     lblAchieved.Text = "Điểm đã đạt: 0";
                     lblTime.Text = "Thời gian đã chạy: 00:00:00";
+                }));
+
+                Invoke(new Action(() =>
+                {
+                    stopwatch = new Stopwatch();
+                    stopwatch.Start();
+                    timer.Start();
                 }));
             oke:
                 bool miz = false;
@@ -296,18 +303,15 @@ namespace aiearn
                         }
                         catch { goto b5; }
                     }
-                    this.Invoke((Action)(() =>
+                    if (!mt)
                     {
-                        lblStartScore.Text = "Điểm ban đầu: " + xucu;
-                        lblAchieved.Text = "Điểm đã đạt: 0";
-                        lblTime.Text = "Thời gian đã chạy: 00:00:00";
-                    }));
-                    Invoke(new Action(() =>
-                    {
-                        stopwatch = new Stopwatch();
-                        stopwatch.Start();
-                        timer.Start();
-                    }));
+
+
+                        this.Invoke((Action)(() =>
+                        {
+                            lblStartScore.Text = "Điểm ban đầu: " + xucu;
+                        }));
+                    }
                     try { driver.FindElement(By.XPath("//div[@class=\"css-5ehbpw\"]")).Click(); } catch { }
                     try { driver.FindElement(By.XPath("//td[@class=\"css-g3rg8x\"]")).Click(); } catch { }
                     js.ExecuteScript("window.scrollTo(0, document.body.scrollHeight);");
@@ -392,7 +396,7 @@ namespace aiearn
                                     continue;
                                 }
                                 item.Click();
-                                _=Task.Delay(r.Next(100, 500));
+                                await Task.Delay(r.Next(min, max));
                                 js.ExecuteScript("arguments[0].setAttribute('style', 'filter: grayscale(100%);')", item);
                                 listelement.Add(item);
                                 this.Invoke(new Action(() =>
@@ -458,7 +462,7 @@ namespace aiearn
                                 if(driver.FindElement(By.XPath("//div[@class=\"css-5ehbpw\"]")).GetAttribute("style")== "filter: none;")
                                 {
                                     js.ExecuteScript("window.scrollTo(0, 0);");
-                                    await Task.Delay(r.Next(100, 3500));
+                                    await Task.Delay(r.Next(min, max));
                                     driver.FindElement(By.XPath("//div[@class=\"css-5ehbpw\"]")).Click();
                                     for (int ks = 0; ks < 3; ks++)
                                     {
@@ -476,7 +480,7 @@ namespace aiearn
                                 if (driver.FindElement(By.XPath("//div[@class=\"css-5ehbpw\"]")).GetAttribute("style") == "filter: none;") 
                                 {
                                     js.ExecuteScript("window.scrollTo(0, 0);");
-                                    await Task.Delay(r.Next(1000, 3500));
+                                    await Task.Delay(r.Next(min, max));
                                     for (int ks = 0; ks < 3; ks++)
                                     {
 
@@ -496,6 +500,36 @@ namespace aiearn
                                 lblAchieved.Text = "Điểm đã đạt: " + maa;
 
                             }));
+                            var manh = driver.FindElements(By.XPath("//div[@class=\"css-r0lr9i\"]//p[@class=\"chakra-text css-0\"]"))[1].Text;
+                            if (manh == "0:00"||manh=="00:00")
+                            {
+                                try
+                                {
+                                    using (Process process = Process.Start(new ProcessStartInfo
+                                    {
+                                        FileName = "cmd.exe",
+                                        Arguments = "/C Taskkill /F /IM chrome.exe /T & Taskkill /F /IM chromedriver.exe /T",
+                                        RedirectStandardOutput = true,
+                                        UseShellExecute = false,
+                                        CreateNoWindow = true
+                                    }))
+                                    {
+                                        string value = process.StandardOutput.ReadToEnd();
+                                        process.WaitForExit();
+                                        Console.WriteLine(value);
+                                    }
+
+                                }
+                                catch (Exception ex)
+                                {
+                                    Console.WriteLine("Không thể kill các process. Lỗi: " + ex.Message);
+                                }
+                                this.Invoke(new Action(() =>
+                                {
+                                    lblStatus.Text = "Chạy lại";
+                                })); mt = true;
+                                goto oke;
+                            }
                         }
                         catch { }
                         js.ExecuteScript("window.scrollTo(0, document.body.scrollHeight);");
@@ -570,6 +604,7 @@ namespace aiearn
                     {
                         lblStatus.Text = "Chạy lại";
                     }));
+                    mt = true;
                     goto oke;
                 }
             });
