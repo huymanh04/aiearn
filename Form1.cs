@@ -125,9 +125,9 @@ namespace aiearn
                         catch { }
                         string userDataDir = Application.StartupPath + @"Profile";
                         //string userDataDir = @"C:\Users\manhc\AppData\Local\Google\Chrome\User Data\";
-                        string profileDir = "Profile "+tk;
-                        chromeOptions.AddArgument($@"--user-data-dir={userDataDir}");
-                        chromeOptions.AddArgument($@"--profile-directory={profileDir}");
+                        //string profileDir = "Profile "+tk;
+                        //chromeOptions.AddArgument($@"--user-data-dir={userDataDir}");
+                        //chromeOptions.AddArgument($@"--profile-directory={profileDir}");
                         chromeOptions.AddArgument("--lang=en");
                         driver = new ChromeDriver(chromeDriverService, chromeOptions);
                     }
@@ -219,7 +219,7 @@ namespace aiearn
                     foreach(var item in tk)
                     {
                         usernameField.SendKeys(item.ToString());
-                        _ = Task.Delay(r.Next(100, 500));
+                        _ = Task.Delay(r.Next(300, 800));
                     }
              
                     _ = Task.Delay(r.Next(1000, 3500));
@@ -227,7 +227,7 @@ namespace aiearn
                     foreach (var item in mk)
                     {
                         passwordField.SendKeys(item.ToString());
-                        _ = Task.Delay(r.Next(100, 500));
+                        _ = Task.Delay(r.Next(300, 800));
                     }
                    
                     _ = Task.Delay(r.Next(2000, 3500));
@@ -501,8 +501,15 @@ namespace aiearn
 
                             }));
                             var manh = driver.FindElements(By.XPath("//div[@class=\"css-r0lr9i\"]//p[@class=\"chakra-text css-0\"]"))[1].Text;
-                            if (manh == "0:00"||manh=="00:00")
+                            if (manh == "0:00"||manh=="00:00" || manh == "03:58" || manh == "03:56")
                             {
+                                try {
+                                driver.FindElements(By.XPath("//img[@class=\"chakra-avatar__img css-16odl91\"]"))[1].Click();
+                                await Task.Delay(r.Next(min, max));
+                                driver.FindElements(By.XPath("//a[@href=\"/home/vip\"]"))[1].Click();
+                                await Task.Delay(r.Next(min, max));
+                                }
+                                catch { }
                                 try
                                 {
                                     using (Process process = Process.Start(new ProcessStartInfo
@@ -528,6 +535,7 @@ namespace aiearn
                                 {
                                     lblStatus.Text = "Chạy lại";
                                 })); mt = true;
+        
                                 goto oke;
                             }
                         }
@@ -536,6 +544,10 @@ namespace aiearn
                         await Task.Delay(r.Next(m1, m2));
                         try
                         {
+                            if (dem > 4)
+                            {
+                                dem = 1;
+                            }
                             js.ExecuteScript("arguments[0].scrollIntoView(false);", driver.FindElement(By.XPath($"//li[@title='{dem}']")));
                             driver.FindElement(By.XPath($"//li[@title='{dem}']")).Click();
 
